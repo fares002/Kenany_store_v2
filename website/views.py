@@ -359,8 +359,9 @@ def smartphones():
         The rendered template with the list of smartphones and the user's cart.
     """
     items = Product.query.filter_by(category='smartphones').all()
+    print(items)
     return render_template('smartphones.html', items=items, cart=Cart.query.filter_by(customer_id=current_user.id).all()
-                           if current_user.is_authenticated else [])
+                                                                                    if current_user.is_authenticated else [])
     
     
     
