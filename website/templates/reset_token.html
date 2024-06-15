@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+  .login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    
+  }
+  .login-container {
+    background:
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .left-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+  }
+  .left-column img {
+    max-width: 80%;
+    height: auto;
+  }
+  .right-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<div class="container-fluid login-page">
+  <div class="row w-100">
+    <div class="col-md-6 left-column">
+      <img src="{{ url_for('static', filename='images/kenany_logo.png') }}" alt="Kenany Store Logo" class="img-fluid">
+    </div>
+    <div class="col-md-6 right-column">
+      <div class="login-container">
+        <h2 class="text-2xl font-bold mb-6">Reset Password</h2>
+        <form action="" method="POST">
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label for="password1" class="form-label">New Password</label>
+            {{ form.New_Password(class="form-control", id="password1", required=True) }}
+          </div>
+          <div class="mb-3">
+            <label for="password1" class="form-label">Confirm New Password</label>
+            {{ form.Confirm_New_Password(class="form-control", id="password1", required=True) }}
+          </div>
+          {{ form.submit(class_="btn btn-secondary w-100") }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{%extends "base.html"%}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<style>
+  .profile-container {
+    margin-top: 50px;
+  }
+  .profile-header {
+    text-align: center;
+  }
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+  .profile-info {
+    margin-top: 55px;
+    margin-bottom: 55px;
+  }
+</style>
+
+<div class="container profile-container ">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header profile-header">
+          <h2>{{ current_user.username }}</h2>
+          <p>{{ current_user.email }}</p>
+        </div>
+        <div class="card-body">
+          <div class="profile-info">
+            <h2 class="mb-2">Profile Information</h2>
+            <p class="mb-2"><strong>User name:</strong> {{ current_user.username }}</p>
+            <p class="mb-2"><strong>Email:</strong> {{ current_user.email }}</p>
+            <p class="mb-2"><strong>Address:</strong> {{ current_user.address }}</p>
+            <p class="mb-2"><strong>Phone Number:</strong> {{ current_user.phone_number }}</p>
+            <p class="mb-4"><strong>Date Joined:</strong> {{ current_user.date_joined }}</p>
+            <a class="btn btn-secondary mt-4" href="{{ url_for('auth.change_password', id=current_user.id) }}">
+              Change Password
+          </a>          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

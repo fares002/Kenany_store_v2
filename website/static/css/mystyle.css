@@ -1,0 +1,227 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.list-group-item {
+    transition: background-color 0.3s;
+    height: 55px;
+    text-align: center;
+}
+
+.list-group-item:hover {
+    background-color: #f9f9f9;
+}
+
+.navbar-brand img {
+    width: 50px;
+    height: auto;
+  }
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+  }
+.navbar-nav .nav-link:hover {
+    color: #ffcc00 !important;
+  }
+
+/* Styling for cards */
+.card {
+    
+    border: solid 1px #f0f0f0;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card h6 {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.card h6 {
+    font-weight: 500;
+}
+
+.card img {
+    object-fit: contain;
+}
+
+
+/* Styling for buttons */
+.btn-secondary {
+    background: linear-gradient(90deg, #4c8bf5 0%, #2463eb 100%);
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(90deg, #2463eb 0%, #4c8bf5 100%);
+}
+
+
+.bg-white {
+    background-color: #ffffff !important;
+}
+
+.rounded {
+    border-radius: 10px !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+}
+
+/*carousel-items*/
+.carousel-item img {
+    object-fit: contain;
+    height: 400px;
+}
+
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 500px; /* Set the desired height */
+    object-fit: contain;
+    border-radius: 50px;
+   
+}
+
+    /* Carousel control icon styling */
+.carousel-indicators [data-bs-target] {
+        background-color: #200020;
+    }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+        filter: invert(2);
+    }
+
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .carousel-item img {
+        height: 250px;
+    }
+}
+
+@media (min-width: 992px) {
+    .list-group-item {
+        padding: 1.5rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+}
+
+
+
+/* Login  Page */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .login-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  .login-container img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  .login-container h2 {
+    margin-bottom: 20px;
+  }
+  .login-container .forgot-password {
+    display: block;
+    margin-top: 10px;
+  }
+
+
+  
+  /*Regiester page*/
+  .register-page {
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .register-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  .register-container img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  .register-container h2 {
+    margin-bottom: 20px;  
+}
+
+
+
+.navbar-toggler-icon{
+    filter: invert(1);
+}
+
+
+  /* Sidebar styling */
+  .list-group-item {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .list-group-item:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+  }
+  .list-group-item i {
+    margin-right: 10px;
+  }
+  .list-group-item-action {
+    display: flex;
+    align-items: center;
+  }
+  .list-group-item-action:hover i {
+    color: #007bff;
+  }
+  .list-group-item-action:hover {
+    background-color: #f8f9fa;
+  }
+  h4 {
+    color: white;
+  }
+  h4 i {
+    color: white;
+  }
+
+  h5 {
+    
+    font-size: 1.1rem;
+  }
+

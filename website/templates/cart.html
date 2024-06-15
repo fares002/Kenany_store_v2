@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kenany Store | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.icons.min.css') }}">
+    <script src="https://kit.fontawesome.com/03dcde4a68.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mystyle.css') }}">
+  </head>
+  <body style="background-color : rgba(0, 0, 0, .9);">
+    <!-- navbar section -->
+    <header style= "">
+        <nav class="navbar navbar-expand-lg  ">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url_for('views.base')}}"><image src="../static/images/kenany_logo.png" ></a>
+                <button class="navbar-toggler" style="border-color:white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav me-auto mb-3 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('views.home')}}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('views.about') }}">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact Us</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" action="/search" method="POST" required="True">
+                        <label for="search" class="visually-hidden">Search</label>
+                        <input class="form-control me-2" type="search" id="search" name="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-secondary" type="submit">Search</button>
+                    </form>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {%if cart | length < 1 %}
+                        <li class="nav-item">
+                            <a class="nav-link " href="{{url_for('views.cart')}}"><span class="badge bg-success"></span>Cart
+                            <i class="fa-solid fa-cart-shopping"></i>
+                          </a>  
+                        </li>
+                        {%else%}
+                        <li class="nav-item">
+                            <a class="nav-link " href="{{url_for('views.cart')}}"><span class="badge bg-success"></span>Cart
+                              <i class="bi bi-{{cart | length}}-square"></i>
+                          </a>  
+                        </li>
+                        {%endif%}
+                        <li class="nav-item">
+                            <a class="nav-link " href="">Wishlist
+                            <i class="fa-solid fa-heart"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Account
+                            </a>
+                            <ul class="dropdown-menu mr-5 dropdown-menu-dark " aria-labelledby="navbarDropdownMenuLink" >
+                              {% if current_user.is_authenticated %}
+                              {% if current_user.id == 1 %}
+                                  <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
+                                  <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
+                                  <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
+                                  <li><a class="dropdown-item" href="/shop_items">Shop items <i class="fa-solid fa-user-crown"></i></a></li>
+                                  <li><a class="dropdown-item" href="/add_shop_items">Add Products <i class="fa-solid fa-user-crown"></i></a></li>
+                                  <li><a class="dropdown-item" href="/view_orders">View Orders <i class="fa-solid fa-user-crown"></i></a></li>
+                                  <li><a class="dropdown-item" href="/customers">My Customers <i class="fa-solid fa-user-crown"></i></a></li>
+                              {% else %}
+                                  <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
+                                  <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
+                                  <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
+                              {% endif %}
+                          {% else %}
+                              <li><a class="dropdown-item" href="/login">Login <i class="fa-solid fa-right-to-bracket"></i></a></li>
+                              <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
+                          {% endif %}
+                          
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div>
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              {{ message }}
+                <button type="button" class="btn btn-close" data-bs-dismiss="alert" >
+              </button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+<!--main content section-->
+<div class="container my-5">
+    <div class="row">
+        {% if cart_items %}
+        <h1 class="text-center mb-5" style="color: white;">Shopping Cart</h1>
+        
+        <!-- Cart Items Section -->
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    {% for item in cart_items %}
+                    <div class="row mb-3">
+                        <div class="col-sm-3 text-center align-self-center">
+                            <img src="{{ item.product.image }}" alt="{{ item.product.product_name }}" class="img-fluid img-thumbnail shadow-sm mx-auto mb-3" style="height: 150px; width: 150px;">
+                        </div>
+                        <div class="col-sm-9">
+                            <div>
+                                <h3>{{ item.product.product_name }}</h3>
+                                <div class="my-3 d-flex align-items-center">
+                                    <label for="quantity" class="mr-2">Quantity </label>
+                                    <a class="minus-cart btn" pid="{{item.id}}"><i class="fas fa-minus-square fa-lg"></i></a>
+                                    <span id="quantity{{item.id}}" class="mx-2">{{ item.quantity }}</span>
+                                    <a class="plus-cart btn " pid="{{ item.id }}"><i class="fas fa-plus-square fa-lg"></i></a>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-0"><strong>SDG{{ item.product.current_price }}</strong></p>
+                                    <a href="/delete_cart_item/{{item.id}}"pid="{{ item.id }}"  class="remove-cart btn btn-sm btn-secondary mb-3" >Remove item</a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Summary Section -->
+        <div class="col-sm-4 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Cart Summary</h3>
+                    <hr>
+                    <ul class="list-group">
+                        {% for item in cart_items %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                            <strong>{{ item.product.product_name }}</strong>
+                            <span>{{ item.product.current_price }} X <span id="product{{ item.id }}">{{ item.quantity }}</span></span>
+                        </li>
+                        {% endfor %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                            <strong>Amount</strong>
+                            <span>SDG <span id="amount_tt">{{ amount }}</span></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                            <div>
+                                <strong>Total</strong>
+                                <small>(Including Shipping)</small>
+                            </div>
+                            <span><strong>SDG <span id="totalamount">{{ total }}</span></strong></span>
+                        </li>
+                    </ul>
+                    <div class="d-grid">
+                        <a href="/place_order" class="btn btn-secondary">Place Order</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <h1 class="text-center mb-5" style="color: white;">Your Cart is Empty</h1>
+        {% endif %}
+    </div>
+</div>
+<!-- footer section -->
+<footer class="container-fluid text-center p-4 mt-5 shadow-sm" style="  color: white; ">
+    <div class="row">
+      <div class="col-md-12">
+        <p>
+          <a href="" style="color: white;">Kenany Store</a> | 
+          <span><i class="fa-regular fa-copyright"></i></span> 2023 All rights reserved
+        </p>
+        <div>
+          <a href="https://www.facebook.com/share/2ZWdjFGxBPJqWtcc/?mibextid=qi2Omg" target="_blank" class="me-3" style="color: white;">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://x.com/kenany_store?t=iUuyf43YJhRVnvCYSTFP-A&s=09" target="_blank" class="me-3" style="color: white;">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://www.instagram.com/kenany_store?igsh=MTVqM3R5b3F4MXpxNQ==" target="_blank" class="me-3" style="color: white;">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+
+  <!-- FontAwesome Script for Icons -->
+  <script src="{{url_for('static', filename='js/fontAwsome.js')}}"></script>
+  
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/myjs.js') }}"></script>
+</body>
+</html>
+

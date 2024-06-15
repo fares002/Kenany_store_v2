@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+  .login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    
+  }
+  .login-container {
+    background:
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .left-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+  }
+  .left-column img {
+    max-width: 80%;
+    height: auto;
+  }
+  .right-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-link {
+    color: black; /* Default color */
+    text-decoration: none; /* Remove default underline */
+    transition: color 0.3s ease, text-decoration 0.3s ease; /* Smooth transition effect */
+}
+
+.auth-link:hover {
+    color: blue; /* Change color on hover */
+    text-decoration: underline; /* Underline on hover */
+}
+
+</style>
+
+<div class="container-fluid login-page">
+  <div class="row w-100">
+    <div class="col-md-6 left-column">
+      <img src="{{ url_for('static', filename='images/kenany_logo.png') }}" alt="Kenany Store Logo" class="img-fluid">
+    </div>
+    <div class="col-md-6 right-column">
+      <div class="login-container">
+        <h2 class="text-2xl font-bold mb-6">Login</h2>
+        <form action="{{ url_for('auth.login') }}" method="POST">
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            {{ form.email(class="form-control", id="email", required=True) }}
+          </div>
+          <div class="mb-3">
+            <label for="password1" class="form-label">Password</label>
+            {{ form.password(class="form-control", id="password1", required=True) }}
+          </div>
+          {{ form.submit(class_="btn btn-secondary w-100") }}
+          <a href="{{ url_for('auth.reset_request') }}" class="auth-link">Forgot your password?</a> |
+          <a href="{{ url_for('auth.signup') }}" class="auth-link">Sign up</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

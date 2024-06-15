@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Update Orders {% endblock %}
+
+{% block content %}
+
+<div class="table responsive">
+    <table class = "table table-dark table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Order Status</th>
+                <th scope="col">Order Status</th>
+        </thead>
+        <tbody>
+            <tr>
+                <form action="" method="POST" enctype= "multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <td>{{ form.order_status(class="form-control", id="status", required=True) }}</td>
+                    <td>{{ form.submit(class_="btn btn-primary") }}</td>
+            </tr>
+
+    </table>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %} View Orders {% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Date Ordered</th>
+                <th scope="col">Status</th>
+                <th scope="col">Product picture</th>
+                <th scope="col">customer name</th>
+                <th scope="col">customer phone_number</th>
+                <th scope="col">customer_address</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.product.product_name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.price }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.status }}</td>
+                <td><img src="{{order.product.image}}" alt="Product Picture" style="width: 50px; height: 50px; border-radius: 2px;"></td>
+                <td>{{ order.customer.username }}</td>
+                <td>{{ order.customer.phone_number }}</td>
+                <td>{{ order.customer.address }}</td>
+                <td>
+                    <a href="/update_order/{{order.id}}" class="btn btn-primary">Update</a>
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

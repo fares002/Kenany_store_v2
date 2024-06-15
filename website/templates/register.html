@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto flex flex-wrap">
+  <div class="w-full md:w-1/2 p-4">
+    <img src="{{ url_for('static', filename='images/kenany_logo.png') }}" alt="Kenany Store Logo" class="w-full">
+  </div>
+
+  <div class="w-full md:w-1/2 p-4">
+    <div class="bg-white p-8 rounded shadow-md">
+      <h2 class="text-2xl font-bold mb-6">Sign Up</h2>
+      <form action="{{ url_for('auth.signup') }}" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-4">
+          <label for="username" class="block text-gray-700">Username</label>
+          {{ form.username(class="form-control mt-1 block w-full", id="username", required=True) }}
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700">Email</label>
+          {{ form.email(class="form-control mt-1 block w-full", id="email", required=True) }}
+        </div>
+        <div class="mb-4">
+          <label for="phone_number" class="block text-gray-700">Phone Number</label>
+          {{ form.phone_number(class="form-control mt-1 block w-full", id="phone_number", required=True) }}
+        </div>
+        <div class="mb-4">
+          <label for="address" class="block text-gray-700">Address</label>
+          {{ form.address(class="form-control mt-1 block w-full", id="address", required=True) }}
+        </div>
+        <div class="mb-4">
+          <label for="password1" class="block text-gray-700">Password</label>
+          {{ form.password(class="form-control mt-1 block w-full", id="password1", required=True) }}
+        </div>
+        <div class="mb-4">
+          <label for="password2" class="block text-gray-700">Confirm Password</label>
+          {{ form.confirm_password(class="form-control mt-1 block w-full", id="password2", required=True) }}
+        </div>
+        {{ form.submit(class_="btn btn-primary w-full py-2 mt-4") }}
+      </form>
+      <p class="mt-4">Already have an account? <a href="{{ url_for('auth.login') }}" class="text-blue-500">Login</a></p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
