@@ -201,8 +201,8 @@ def reset_request():
     if form.validate_on_submit():
         email = form.email.data
         customer = Customer.query.filter_by(email=email).first()
-        send_rest_email(customer)
         if customer:
+            send_rest_email(customer)
             flash('An email has been sent with instructions to reset your password', 'info')
             return redirect(url_for('auth.login'))
         else:

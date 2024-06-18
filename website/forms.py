@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, FloatField ,PasswordField, SubmitField, BooleanField, EmailField, SelectField, FileField
+from wtforms import StringField, IntegerField, FloatField ,PasswordField, SubmitField, BooleanField, EmailField, SelectField, FileField, TextAreaField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError, NumberRange  , Optional
 from flask_wtf.file import FileField 
 from .models import Customer
@@ -74,7 +74,7 @@ class ShopItemsForm(FlaskForm):
     previous_price = FloatField('Previous Price', validators=[Optional()])
     in_stock = IntegerField('In Stock', validators=[DataRequired(), NumberRange(min=0)])
     product_picture = FileField('Product Picture', validators=[DataRequired()])
-    description = StringField('Description')
+    description = TextAreaField('Description', validators=[DataRequired()])
     flash_sale = BooleanField('Flash Sale')
     featured_product = BooleanField('Featured Product')
 
@@ -147,3 +147,11 @@ class ResetPasswordForm(FlaskForm):
     New_Password=PasswordField(label='New_Password' , validators=[DataRequired(), Length(min=6)])
     Confirm_New_Password=PasswordField(label='Confirm_New_Password' , validators=[DataRequired(), EqualTo('New_Password'), Length(min=6)])
     submit = SubmitField(label='Reset Password')
+    
+    
+class ContactForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    subject = StringField('Subject', validators=[DataRequired()])
+    message = TextAreaField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send')

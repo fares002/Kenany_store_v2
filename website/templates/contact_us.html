@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto flex flex-wrap">
+  <div class="w-full md:w-1/2 p-4">
+    <img src="{{ url_for('static', filename='images/kenany_logo.png') }}" alt="Kenany Store Logo" class="w-full">
+  </div>
+
+  <div class="w-full md:w-1/2 p-4">
+    <div class="bg-white p-8 rounded shadow-md">
+      <h2 class="text-2xl font-bold mb-6">Contact Us</h2>
+      <form action="{{ url_for('views.contact') }}" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-4">
+          <label for="name" class="block text-gray-700">Name</label>
+          {{ form.name(class="form-control mt-1 block w-full", id="name", required=True) }}
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700">Email</label>
+          {{ form.email(class="form-control mt-1 block w-full", id="email", required=True) }}
+        </div>
+        <div class="mb-4">
+          <label for="subject" class="block text-gray-700">Subject</label>
+          {{ form.subject(class="form-control mt-1 block w-full", id="subject", required=True) }}
+        </div>
+        <div class="mb-4">
+          <label for="message" class="block text-gray-700">Message</label>
+          {{ form.message(class="form-control mt-1 block w-full", id="message", required=True) }}
+        </div>
+        {{ form.submit(class_="btn btn-primary w-full py-2 mt-4") }}
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,8 +1,10 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, send_from_directory
 from .models import Product, Cart, Order
-from . import db
+from . import db, mail
 from flask_login import login_required, current_user
 from intasend import APIService
+from .forms import ContactForm
+from flask_mail import Message
 
 views = Blueprint('views', __name__)
 API_PUBLISHABLE_KEY = "ISPubKey_test_8ff503c9-81b7-4144-88df-4ce1d65a3cdb"
@@ -404,3 +406,29 @@ def Accessories():
     items = Product.query.filter_by(category='Accessories').all()
     return render_template('Accessories.html', items=items, cart=Cart.query.filter_by(customer_id=current_user.id).all()
                            if current_user.is_authenticated else [])
+    
+    
+    
+    
+@views.route('/contact', methods=['GET', 'POST'])
+def contact():
+    """
+    Renders the contact_us.html template and handles the contact form submission.
+
+    Returns:
+        If the form is submitted successfully, it redirects to the 'contact' view.
+        Otherwise, it renders the 'contact_us.html' template with the contact form.
+    """
+    form = ContactForm()
+    if form.validate_on_submit():
+        msg = Message(form.subject.data,
+                      sender=form.email.data,
+                      recipients=['faresosama002@gmail.com'])
+        msg.body = f'''Name: {form.name.data}
+Email: {form.email.data}
+Message: {form.message.data}
+'''
+        mail.send(msg)
+        flash('Your message has been sent successfully!', 'success')
+        return redirect(url_for('views.contact'))
+    return render_template('contact_us.html', form=form)
