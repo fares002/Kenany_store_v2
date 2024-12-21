@@ -1,12 +1,12 @@
-Flask
-gunicorn
-Flask-Sqlalchemy
-Flask-login
-flask_bcrypt
-flask-wtf
-pymysql
-intasend-python
-psycopg2-binary
-email-validator
-flask-mail
-PyJWT
+Flask 3.0.3
+gunicorn 23.0.0
+Flask-Sqlalchemy 3.1.1
+Flask-login 0.6.3
+flask_bcrypt 1.0.1
+flask-wtf 1.2.1
+pymysql 1.1.0
+intasend-python 1.0.9
+psycopg2-binary 2.9.9
+email-validator  2.1.1
+flask-mail 0.10.0
+PyJWT 2.8.0 

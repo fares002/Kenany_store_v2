@@ -5,6 +5,7 @@ from . import db, mail, app
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_mail import Message
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from datetime import datetime
 
 
 auth = Blueprint('auth', __name__)
@@ -119,11 +120,12 @@ def profile(id):
         str: The rendered HTML template for the profile page.
     """
     customer = Customer.query.get(id)
-    return render_template('profile.html', customer=customer)
-def profile(id):
-    
-    customer = Customer.query.get(id)
-    return render_template('profile.html' , customer=customer)
+    date_string = customer.date_joined
+        
+    formatted_date = date_string.strftime("%B %d, %Y, %H:%M")
+ 
+    return render_template('profile.html', customer=customer , date_object=formatted_date)
+
 
 
 

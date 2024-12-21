@@ -39,6 +39,32 @@
                       <button class="btn btn-secondary" type="submit">Search</button>
                   </form>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Account
+                        </a>
+                        <ul class="dropdown-menu mr-5 dropdown-menu-dark " aria-labelledby="navbarDropdownMenuLink" >
+                          {% if current_user.is_authenticated %}
+                          {% if current_user.id == 1 %}
+                              <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
+                              <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
+                              <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
+                              <li><a class="dropdown-item" href="/shop_items">Shop items <i class="fa-solid fa-user-crown"></i></a></li>
+                              <li><a class="dropdown-item" href="/add_shop_items">Add Products <i class="fa-solid fa-user-crown"></i></a></li>
+                              <li><a class="dropdown-item" href="/view_orders">View Orders <i class="fa-solid fa-user-crown"></i></a></li>
+                              <li><a class="dropdown-item" href="/customers">My Customers <i class="fa-solid fa-user-crown"></i></a></li>
+                          {% else %}
+                              <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
+                              <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
+                              <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
+                          {% endif %}
+                      {% else %}
+                          <li><a class="dropdown-item" href="/login">Login <i class="fa-solid fa-right-to-bracket"></i></a></li>
+                          <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
+                      {% endif %}
+                      
+                        </ul>
+                    </li>
                         {%if cart | length < 1 %}
                         <li class="nav-item">
                             <a class="nav-link " href="{{url_for('views.cart')}}"><span class="badge bg-success"></span>Cart
@@ -57,32 +83,7 @@
                             <i class="fa-solid fa-heart"></i>
                             </a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Account
-                            </a>
-                            <ul class="dropdown-menu mr-5 dropdown-menu-dark " aria-labelledby="navbarDropdownMenuLink" >
-                              {% if current_user.is_authenticated %}
-                              {% if current_user.id == 1 %}
-                                  <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
-                                  <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
-                                  <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
-                                  <li><a class="dropdown-item" href="/shop_items">Shop items <i class="fa-solid fa-user-crown"></i></a></li>
-                                  <li><a class="dropdown-item" href="/add_shop_items">Add Products <i class="fa-solid fa-user-crown"></i></a></li>
-                                  <li><a class="dropdown-item" href="/view_orders">View Orders <i class="fa-solid fa-user-crown"></i></a></li>
-                                  <li><a class="dropdown-item" href="/customers">My Customers <i class="fa-solid fa-user-crown"></i></a></li>
-                              {% else %}
-                                  <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
-                                  <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
-                                  <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
-                              {% endif %}
-                          {% else %}
-                              <li><a class="dropdown-item" href="/login">Login <i class="fa-solid fa-right-to-bracket"></i></a></li>
-                              <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
-                          {% endif %}
-                          
-                            </ul>
-                        </li>
+
                     </ul>
                 </div>
             </div>

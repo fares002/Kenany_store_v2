@@ -195,40 +195,6 @@ def minuscart():
         return jsonify(data)
     
     
-# @views.route('/remove_cart_item', methods=['POST', 'GET'])
-# @login_required
-# def remove_cart_item():
-#     if request.method == 'GET':
-#         prod_id = request.args.get('prod_id')
-        
-#         # Check if prod_id is provided
-#         if not prod_id:
-#             return jsonify({'error': 'Product ID not provided'}), 400
-        
-#         # Check if prod_id is valid and corresponding cart_item exists
-#         cart_item = Cart.query.get(prod_id)
-#         if not cart_item:
-#             return jsonify({'error': 'Cart item not found'}), 404
-        
-#         # Ensure the cart item belongs to the current user
-#         if cart_item.customer_id != current_user.id:
-#             return jsonify({'error': 'Unauthorized action'}), 403
-
-#         db.session.delete(cart_item)
-#         db.session.commit()
-#         cart = Cart.query.filter_by(customer_id=current_user.id).all()
-#         amount = sum(item.product.current_price * item.quantity for item in cart)
-#         total = amount + 1000
-
-#         data = {
-#             'quantity': 3,
-#             'amount': amount,
-#             'total': total
-#         }
-#         return jsonify(data)
-
-
-
 
 @views.route('/About_us')
 def about():

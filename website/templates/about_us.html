@@ -3,34 +3,96 @@
 
 {% block content %}
 <div class="container mx-auto py-12 text-white">
-    <div class="bg-gray-1000 p-8 rounded-lg shadow-lg">
-        <h1 class="text-4xl font-bold mb-6">About Us</h1>
-        <p class="text-lg mb-4">
-            Welcome to Kenany Store, your ultimate destination for a diverse range of high-quality products at unbeatable prices. We pride ourselves on offering a seamless shopping experience tailored to your needs.
-        </p>
-        <h2 class="text-2xl font-semibold mb-4">Our Mission</h2>
-        <p class="text-lg mb-4">
-            Our mission is to make online shopping easy, convenient, and enjoyable. We aim to provide top-notch customer service and ensure complete satisfaction with every purchase.
-        </p>
-        <h2 class="text-2xl font-semibold mb-4">What We Offer</h2>
-        <ul class="list-disc list-inside text-lg mb-4">
-            <li>Electronics</li>
-            <li>Accessories</li>
-            <li>And much more...</li>
-        </ul>
-        <h2 class="text-2xl font-semibold mb-4">Why Choose Us?</h2>
-        <p class="text-lg mb-4">
-            At Kenany Store, we are committed to providing:
-        </p>
-        <ul class="list-disc list-inside text-lg mb-4">
-            <li>High-quality products</li>
-            <li>Affordable prices</li>
-            <li>Excellent customer service</li>
-            <li>A user-friendly online shopping experience</li>
-        </ul>
-        <p class="text-lg mb-4">
-            Thank you for choosing Kenany Store. We look forward to serving you and ensuring you have a fantastic shopping experience!
-        </p>
+    <div 
+        class="bg-gradient-to-br from-black-800 to-black-900 p-10 rounded-xl shadow-xl"
+        data-aos="fade-up"
+        data-aos-duration="800"
+    >
+        <!-- Heading Section -->
+        <div class="text-center mb-8" data-aos="zoom-in" data-aos-duration="600">
+            <h1 class="text-5xl font-extrabold text-teal-400 mb-4">About Us</h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                Welcome to <span class="text-teal-400 font-semibold">Kenany Store</span>, your ultimate destination for quality, value, and convenience.
+            </p>
+        </div>
+
+        <!-- Mission Section -->
+        <div class="mb-8" data-aos="fade-right" data-aos-duration="800">
+            <h2 class="text-3xl font-bold text-teal-300 mb-4 flex items-center">
+                <i class="fa-solid fa-bullseye mr-3"></i> Our Mission
+            </h2>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                We aim to make online shopping effortless, enjoyable, and satisfying. Our mission is to provide outstanding products and unparalleled customer service.
+            </p>
+        </div>
+
+        <!-- What We Offer Section -->
+        <div class="mb-8" data-aos="fade-left" data-aos-duration="800">
+            <h2 class="text-3xl font-bold text-teal-300 mb-4 flex items-center">
+                <i class="fa-solid fa-boxes-stacked mr-3"></i> What We Offer
+            </h2>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-lg text-gray-300">
+                <li class="flex items-center">
+                    <i class="fa-solid fa-tv text-teal-400 mr-3"></i> Electronics
+                </li>
+                <li class="flex items-center">
+                    <i class="fa-solid fa-headphones text-teal-400 mr-3"></i> Accessories
+                </li>
+                <li class="flex items-center">
+                    <i class="fa-solid fa-plus text-teal-400 mr-3"></i> And much more...
+                </li>
+            </ul>
+        </div>
+
+        <!-- Why Choose Us Section -->
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-teal-300 mb-4 flex items-center">
+                <i class="fa-solid fa-thumbs-up mr-3"></i> Why Choose Us?
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+                <div 
+                    class="bg-gray-800 p-6 rounded-lg shadow-md" 
+                    data-aos="flip-left" 
+                    data-aos-duration="600"
+                >
+                    <h3 class="text-xl font-semibold text-teal-400 mb-2">High-Quality Products</h3>
+                    <p class="text-gray-300">We offer only the best products to meet your needs.</p>
+                </div>
+                <div 
+                    class="bg-gray-800 p-6 rounded-lg shadow-md" 
+                    data-aos="flip-right" 
+                    data-aos-duration="600"
+                >
+                    <h3 class="text-xl font-semibold text-teal-400 mb-2">Affordable Prices</h3>
+                    <p class="text-gray-300">Shop with confidence knowing you’re getting value for your money.</p>
+                </div>
+                <div 
+                    class="bg-gray-800 p-6 rounded-lg shadow-md" 
+                    data-aos="flip-up" 
+                    data-aos-duration="600"
+                >
+                    <h3 class="text-xl font-semibold text-teal-400 mb-2">Excellent Customer Service</h3>
+                    <p class="text-gray-300">Our team is here to support you every step of the way.</p>
+                </div>
+                <div 
+                    class="bg-gray-800 p-6 rounded-lg shadow-md" 
+                    data-aos="flip-down" 
+                    data-aos-duration="600"
+                >
+                    <h3 class="text-xl font-semibold text-teal-400 mb-2">User-Friendly Experience</h3>
+                    <p class="text-gray-300">Enjoy a seamless shopping experience tailored to your needs.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thank You Section -->
+        <div class="text-center" data-aos="fade-up" data-aos-duration="800">
+            <p class="text-lg text-gray-300">
+                Thank you for choosing <span class="text-teal-400 font-semibold">Kenany Store</span>. We’re excited to serve you and enhance your shopping experience!
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}
+
+

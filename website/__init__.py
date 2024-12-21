@@ -4,8 +4,10 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager 
 from flask_mail import Mail
 import os
+from dotenv import load_dotenv
 
-
+# Load variables from .env file
+load_dotenv()
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -17,10 +19,10 @@ def create_database():
  
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-app.config['SECRET_KEY'] = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://kenany_user:Im0bVJnHWP7rB2Ac5Iimr9FYffmPg8yF@dpg-cpmfn7g8fa8c73ahtvsg-a/kenany_store_v2"
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+psycopg2://kenany_user:Im0bVJnHWP7rB2Ac5Iimr9FYffmPg8yF@dpg-cpmfn7g8fa8c73ahtvsg-a/kenany_store_v2"
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://kenany_user:yourpassword@localhost/kenany_store'
+app.config['SQLALCHEMY_DATABASE_URI'] =  os.getenv('DATABASE_URL')
 
 # Initialize the database
 db.init_app(app)
@@ -46,8 +48,8 @@ def load_user(id):
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'faresosama002@gmail.com'
-app.config['MAIL_PASSWORD'] = 'oasw ahyv yqoz bvjt'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 mail = Mail(app)
 
 # Register Blueprints
