@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 from intasend import APIService
 from .forms import ContactForm
 from flask_mail import Message
+import stripe
 
 views = Blueprint('views', __name__)
 API_PUBLISHABLE_KEY = "ISPubKey_test_8ff503c9-81b7-4144-88df-4ce1d65a3cdb"
@@ -202,49 +203,67 @@ def about():
     return render_template('about_us.html')
 
 
-@views.route('/place_order', methods=['POST', 'GET'])
+@views.route('/place_order', methods=['POST'])
 @login_required
 def place_order():
     """
     Place an order for the items in the customer's cart.
-    
-    This function calculates the total amount for the items in the customer's cart,
-    creates an order using an external API service, updates the inventory, and
-    redirects the user to the orders page if the order is placed successfully.
-    
-    Returns:
-        A redirect response to the orders page if the order is placed successfully,
-        or a redirect response to the previous page with an error message if an error occurs.
+    Processes the order based on the selected payment method.
     """
+    payment_method = request.form.get('payment_method')
+    print(payment_method)
+    
+    if not payment_method:
+        flash('Please select a payment method', 'danger')
+        return redirect(request.referrer)
+    
     customer_cart = Cart.query.filter_by(customer_id=current_user.id).all()
-    if customer_cart:
+    if not customer_cart:
+        flash('Your cart is empty!', 'danger')
+        return redirect('/')
+    
+    if payment_method == 'cod':
+        # Process order for Cash on Delivery
         try:
             total = 0
             for item in customer_cart:
                 total += item.product.current_price * item.quantity
 
+            # Process each cart item and create orders
             for item in customer_cart:
                 new_order = Order()
                 new_order.quantity = item.quantity
                 new_order.price = item.product.current_price
                 new_order.product_id = item.product_id
                 new_order.customer_id = current_user.id
+                # Optionally, save the payment method for future reference
+                new_order.payment_method = 'Cash on Delivery'
                 db.session.add(new_order)
                 
+                # Update product inventory
                 product = Product.query.get(item.product_id)
                 product.in_stock -= item.quantity
+                # Remove the item from the cart
                 db.session.delete(item)
-                db.session.commit()
-                
-            flash('Order placed successfully!', 'success')
+            
+            # Commit after processing all items
+            db.session.commit()
+            flash('Order placed successfully with Cash on Delivery!', 'success')
             return redirect('/orders')
         except Exception as e:
             print(e)
-            flash('An error occurred while placing order', 'danger')
+            db.session.rollback()
+            flash('An error occurred while placing the order', 'danger')
             return redirect(request.referrer)
     
-    flash('Your cart is empty!', 'danger')
-    return redirect('/')
+    elif payment_method == 'credit_card':
+        # Redirect to your credit card payment processing (e.g., Stripe Checkout)
+        # You should implement your Stripe integration in a separate route.
+        return redirect(url_for('views.stripe_checkout'))
+    else:
+        flash('Invalid payment method selected', 'danger')
+        return redirect(request.referrer)
+
 
 
 
@@ -393,3 +412,70 @@ Message: {form.message.data}
         flash('Your message has been sent successfully!', 'success')
         return redirect(url_for('views.contact'))
     return render_template('contact_us.html', form=form)
+
+
+
+
+# Handle the Stripe checkout 
+
+@views.route('/stripe_checkout', methods=['GET'])
+@login_required
+def stripe_checkout():
+    # Retrieve the customer's cart items
+    customer_cart = Cart.query.filter_by(customer_id=current_user.id).all()
+    if not customer_cart:
+        flash('Your cart is empty!', 'danger')
+        return redirect('/')
+    
+    # Build the line items for Stripe Checkout.
+    # Stripe expects the amount in cents, so multiply by 100 (and ensure the price is an integer or convert it).
+    line_items = []
+    for item in customer_cart:
+        line_item = {
+            'price_data': {
+                'currency': 'EGP',  # Change this to your desired currency
+                'unit_amount': int(item.product.current_price),  # Stripe requires the amount in cents
+                'product_data': {
+                    'name': item.product.product_name,
+                    # Optionally add more product details (like description)
+                },
+            },
+            'quantity': item.quantity,
+        }
+        line_items.append(line_item)
+    
+    try:
+        # Create a Stripe Checkout Session
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=line_items,
+            mode='payment',
+            # Replace 'payment_success' and 'payment_cancel' with your actual route names.
+            success_url=url_for('views.payment_success', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=url_for('views.payment_cancel', _external=True),
+        )
+        # Redirect to the Stripe Checkout page
+        return redirect(session.url, code=303)
+    except Exception as e:
+        print(e)
+        flash('An error occurred while initiating the payment process', 'danger')
+        return redirect(url_for('views.cart'))
+    
+    
+    
+    
+@views.route('/payment_success')
+@login_required
+def payment_success():
+    # Here you could verify the session and update order status if needed.
+    flash('Payment successful! Your order is being processed.', 'success')
+    return redirect('/orders')
+
+
+
+@views.route('/payment_cancel')
+@login_required
+def payment_cancel():
+    flash('Payment canceled. Please try again.', 'danger')
+    return redirect(url_for('views.cart'))
+
