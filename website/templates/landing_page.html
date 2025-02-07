@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kenany Store | {% block title %}Home{% endblock %}</title>
+  
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.icons.min.css') }}">
   <script src="https://kit.fontawesome.com/03dcde4a68.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
@@ -22,8 +26,8 @@
         <a class="navbar-brand" href="{{url_for('views.base')}}">
           <img src="../static/images/kenany_logo.png" alt="Kenany Store Logo"> 
         </a>
-        <button class="navbar-toggler text-white " style="border-color:white;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" >
-          <span class="navbar-toggler-icon " ></span>
+        <button class="navbar-toggler text-white" style="border-color:white;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" >
+          <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav me-auto mb-3 mb-lg-0">
@@ -41,7 +45,7 @@
             <label for="search" class="visually-hidden">Search</label>
             <input class="form-control me-2" type="search" id="search" name="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-secondary" type="submit">Search</button>
-        </form>
+          </form>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -49,44 +53,43 @@
               </a>
               <ul class="dropdown-menu mr-5 dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                 {% if current_user.is_authenticated %}
-                {% if current_user.id == 1 %}
-                <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
-                <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
-                <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
-                <li><a class="dropdown-item" href="/shop_items">Shop items <i class="fa-solid fa-user-crown"></i></a></li>
-                <li><a class="dropdown-item" href="/add_shop_items">Add Products <i class="fa-solid fa-user-crown"></i></a></li>
-                <li><a class="dropdown-item" href="/view_orders">View Orders <i class="fa-solid fa-user-crown"></i></a></li>
-                <li><a class="dropdown-item" href="/customers">My Customers <i class="fa-solid fa-user-crown"></i></a></li>
+                  {% if current_user.id == 1 %}
+                    <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
+                    <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
+                    <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
+                    <li><a class="dropdown-item" href="/shop_items">Shop items <i class="fa-solid fa-user-crown"></i></a></li>
+                    <li><a class="dropdown-item" href="/add_shop_items">Add Products <i class="fa-solid fa-user-crown"></i></a></li>
+                    <li><a class="dropdown-item" href="/view_orders">View Orders <i class="fa-solid fa-user-crown"></i></a></li>
+                    <li><a class="dropdown-item" href="/customers">My Customers <i class="fa-solid fa-user-crown"></i></a></li>
+                  {% else %}
+                    <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
+                    <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
+                    <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
+                  {% endif %}
                 {% else %}
-                <li><a class="dropdown-item" href="{{ url_for('auth.profile', id=current_user.id) }}">Profile <i class="fa-solid fa-user"></i></a></li>
-                <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
-                <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
-                {% endif %}
-                {% else %}
-                <li><a class="dropdown-item" href="/login">Login <i class="fa-solid fa-right-to-bracket"></i></a></li>
-                <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
+                  <li><a class="dropdown-item" href="/login">Login <i class="fa-solid fa-right-to-bracket"></i></a></li>
+                  <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
                 {% endif %}
               </ul>
             </li>
             {% if cart | length < 1 %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('views.cart') }}">
-                <i class="fa-solid fa-cart-shopping"></i> Cart
-              </a>
-            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('views.cart') }}">
+                  <i class="fa-solid fa-cart-shopping"></i> Cart
+                </a>
+              </li>
             {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('views.cart') }}">
-                <i class="bi bi-{{ cart | length }}-square"></i> Cart
-              </a>
-            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('views.cart') }}">
+                  <i class="bi bi-{{ cart | length }}-square"></i> Cart
+                </a>
+              </li>
             {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="#">Wishlist
                 <i class="fa-solid fa-heart"></i>
               </a>
             </li>
-
           </ul>
         </div>
       </div>
@@ -114,36 +117,36 @@
           <div class="card-body">
             <h2 class="card-title">Featured Products</h2>
             <!-- Add your featured products here -->
-                        <div class="container text-center mb-4 mt-5">
-                            <div class="row g-4">
-                                {% for item in featured_items %}
-                                <div class="col-md-3">
-                                  <a href="/products/{{ item.id }}" class="card-link">
-                                      <div class="card h-100 border-0 shadow-sm">
-                                          <img src=".{{item.image}}" alt="{{item.product_name}}" class="card-img-top p-3 mx-auto" style="height: 202px; width: auto;">
-                                          <div class="card-body">
-                                              <h6 class="card-title text-muted">{{item.product_name}}</h6>
-                                              <div class="d-flex justify-content-between align-items-center">
-                                                  {%if item.previous_price%}
-                                                  <div>
-                                                      <h5 class="mb-0">SDG {{item.current_price}}</h5>
-                                                      <strike class="text-muted">SDG {{item.previous_price}}</strike>
-                                                  </div>
-                                                  {%else%}
-                                                  <div>
-                                                      <h5 class="mb-0">SDG {{item.current_price}}</h5>
-                                                  </div>
-                                                  {%endif%}
-                                                  <a href="/add_to_cart/{{item.id}}" class="btn btn-secondary">Add to cart</a>
-                                              </div>
-                                              <p class="text-muted mt-2">{{item.in_stock}} Items Left</p>
-                                          </div>
-                                      </div>
-                                      </a>
-                                    </div>
-                                {% endfor %}
-                            </div>
+            <div class="container text-center mb-4 mt-5">
+              <div class="row g-4">
+                {% for item in featured_items %}
+                <div class="col-md-3" data-aos="fade-up">
+                  <a href="/products/{{ item.id }}" class="card-link">
+                    <div class="card h-100 border-0 shadow-sm">
+                      <img src=".{{ item.image }}" alt="{{ item.product_name }}" class="card-img-top p-3 mx-auto" style="height: 202px; width: auto;">
+                      <div class="card-body">
+                        <h6 class="card-title text-muted">{{ item.product_name }}</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                          {% if item.previous_price %}
+                          <div>
+                            <h5 class="mb-0">SDG {{ item.current_price }}</h5>
+                            <strike class="text-muted">SDG {{ item.previous_price }}</strike>
+                          </div>
+                          {% else %}
+                          <div>
+                            <h5 class="mb-0">SDG {{ item.current_price }}</h5>
+                          </div>
+                          {% endif %}
+                          <a href="/add_to_cart/{{ item.id }}" class="btn btn-secondary">Add to cart</a>
                         </div>
+                        <p class="text-muted mt-2">{{ item.in_stock }} Items Left</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -151,17 +154,16 @@
 
     <!-- Product Showcase Section -->
     <div class="container header-content">
-        <div class="row align-items-center">
-          <div class="col-md-6 order-2 order-md-1">
-            <h1>Find the latest technology</h1>
-                <p>Your one-stop shop for all your tech needs</p>
-            
-            </div>
-            <div class="col-md-6 order-1 order-md-2 header-image mb-3 mb-md-0">
-                <img src="../static/images/iphone14promaxedited.png" alt="kenany store"> 
-            </div>
+      <div class="row align-items-center">
+        <div class="col-md-6 order-2 order-md-1">
+          <h1>Find the latest technology</h1>
+          <p>Your one-stop shop for all your tech needs</p>
+        </div>
+        <div class="col-md-6 order-1 order-md-2 header-image mb-3 mb-md-0">
+          <img src="../static/images/iphone14promaxedited.png" alt="kenany store"> 
         </div>
       </div>
+    </div>
 
     <!-- Flash Sale Section -->
     <section class="full-size-section section-white text-center">
@@ -171,59 +173,57 @@
             <h2 class="card-title">Flash Sale Products</h2>
             <!-- Add your flash sale products here -->
             <div class="container text-center mb-4 mt-5">
-                <div class="row g-4">
-                    {% for item in items %}
-                    <div class="col-md-3">
-                      <a href="/products/{{ item.id }}" class="card-link">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <img src="{{item.image}}" alt="{{item.product_name}}" class="card-img-top p-3 mx-auto" style="height: 202px; width: auto;">
-                            <div class="card-body">
-                                <h6 class="card-title text-muted">{{item.product_name}}</h6>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    {%if item.previous_price%}
-                                    <div>
-                                        <h5 class="mb-0">SDG {{item.current_price}}</h5>
-                                        <strike class="text-muted">SDG {{item.previous_price}}</strike>
-                                    </div>
-                                    {%else%}
-                                    <div>
-                                        <h5 class="mb-0">SDG {{item.current_price}}</h5>
-                                    </div>
-                                    {%endif%}
-                                    <a href="/add_to_cart/{{item.id}}" class="btn btn-secondary">Add to cart</a>
-                                </div>
-                                <p class="text-muted mt-2">{{item.in_stock}} Items Left</p>
-                            </div>
+              <div class="row g-4">
+                {% for item in items %}
+                <div class="col-md-3" data-aos="fade-up">
+                  <a href="/products/{{ item.id }}" class="card-link">
+                    <div class="card h-100 border-0 shadow-sm">
+                      <img src="{{ item.image }}" alt="{{ item.product_name }}" class="card-img-top p-3 mx-auto" style="height: 202px; width: auto;">
+                      <div class="card-body">
+                        <h6 class="card-title text-muted">{{ item.product_name }}</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                          {% if item.previous_price %}
+                          <div>
+                            <h5 class="mb-0">SDG {{ item.current_price }}</h5>
+                            <strike class="text-muted">SDG {{ item.previous_price }}</strike>
+                          </div>
+                          {% else %}
+                          <div>
+                            <h5 class="mb-0">SDG {{ item.current_price }}</h5>
+                          </div>
+                          {% endif %}
+                          <a href="/add_to_cart/{{ item.id }}" class="btn btn-secondary">Add to cart</a>
                         </div>
-                        </a>
+                        <p class="text-muted mt-2">{{ item.in_stock }} Items Left</p>
+                      </div>
                     </div>
-                    {% endfor %}
+                  </a>
                 </div>
+                {% endfor %}
+              </div>
             </div>
             <!--end-->
           </div>
         </div>
       </div>
     </section>
-    
-   
   </main>
 
   <!-- footer section -->
-  <footer class="footer text-center" style="background: rgb(0, 0, 0, 0.9);">
+  <footer class="footer text-center">
     <div class="container">
       <p>
-        <a href="#" style="color: white;">Kenany Store</a> | 
+        <a href="#">Kenany Store</a> | 
         <span><i class="fa-regular fa-copyright"></i></span> 2023 All rights reserved
       </p>
       <div>
-        <a href="https://www.facebook.com/share/2ZWdjFGxBPJqWtcc/?mibextid=qi2Omg" target="_blank" class="me-3" style="color: white;">
+        <a href="https://www.facebook.com/share/2ZWdjFGxBPJqWtcc/?mibextid=qi2Omg" target="_blank" class="me-3">
           <i class="fab fa-facebook-f"></i>
         </a>
-        <a href="https://x.com/kenany_store?t=iUuyf43YJhRVnvCYSTFP-A&s=09" target="_blank" class="me-3" style="color: white;">
+        <a href="https://x.com/kenany_store?t=iUuyf43YJhRVnvCYSTFP-A&s=09" target="_blank" class="me-3" >
           <i class="fab fa-twitter"></i>
         </a>
-        <a href="https://www.instagram.com/kenany_store?igsh=MTVqM3R5b3F4MXpxNQ==" target="_blank" class="me-3" style="color: white;">
+        <a href="https://www.instagram.com/kenany_store?igsh=MTVqM3R5b3F4MXpxNQ==" target="_blank" class="me-3" >
           <i class="fab fa-instagram"></i>
         </a>
       </div>
@@ -234,7 +234,17 @@
   <script src="{{ url_for('static', filename='js/fontAwsome.js') }}"></script>
   <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+  
+  <!-- AOS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 800, // Animation duration in ms
+      once: true     // Whether animation should happen only once while scrolling down
+    });
+  </script>
 </body>
 </html>
+
 
 

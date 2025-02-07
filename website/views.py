@@ -222,16 +222,11 @@ def place_order():
             total = 0
             for item in customer_cart:
                 total += item.product.current_price * item.quantity
-            service = APIService(token=API_TOKEN, publishable_key=API_PUBLISHABLE_KEY, test=True)
-            create_order_response = service.collect.mpesa_stk_push(phone_number="2541557636517", email=current_user.email, amount=total, currency="USD", narrative="Purchase of goods")
-            
+
             for item in customer_cart:
                 new_order = Order()
                 new_order.quantity = item.quantity
                 new_order.price = item.product.current_price
-                new_order.status = create_order_response['invoice']['state'].capitalize()
-                new_order.payment_id = create_order_response['id']
-                
                 new_order.product_id = item.product_id
                 new_order.customer_id = current_user.id
                 db.session.add(new_order)

@@ -6,11 +6,11 @@
 
 <div class="container mt-5">
     <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-3 mb-5">
+        <!-- Sidebar with AOS Animation -->
+        <div class="col-md-3 mb-5" data-aos="fade-right">
             <h4 class="mb-3"><i class="fas fa-list"></i> Categories</h4>
             <div class="list-group">
-                <a href="{{url_for('views.smartphones')}}" class="list-group-item list-group-item-action">
+                <a href="{{ url_for('views.smartphones') }}" class="list-group-item list-group-item-action">
                     <i class="fas fa-mobile-alt"></i> Smartphones
                 </a>
                 <a href="/category/Headphones and Speakers" class="list-group-item list-group-item-action">
@@ -25,30 +25,30 @@
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Main Content with Product Cards -->
         <div class="col-md-9">
             <div class="row g-4">
                 {% for item in items %}
-                <div class="col-md-4">
-                    <a href="/products/{{item.id}}" class="card-link">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 25 }}">
+                    <a href="/products/{{ item.id }}" class="card-link">
                         <div class="card h-100 border-0 shadow-sm">
-                            <img src=".{{item.image}}" alt="{{item.product_name}}" class="card-img-top p-3 mx-auto" style="height: 202px; width: auto;">
+                            <img src=".{{ item.image }}" alt="{{ item.product_name }}" class="card-img-top p-3 mx-auto" style="height: 202px; width: auto;">
                             <div class="card-body">
-                                <h6 class="card-title text-muted">{{item.product_name}}</h6>
+                                <h6 class="card-title text-muted">{{ item.product_name }}</h6>
                                 <div class="d-flex justify-content-between align-items-center">
                                     {% if item.previous_price %}
                                     <div>
-                                        <h5 class="mb-0 ">SDG {{item.current_price}}</h5>
-                                        <strike class="text-muted">SDG {{item.previous_price}}</strike>
+                                        <h5 class="mb-0">SDG {{ item.current_price }}</h5>
+                                        <strike class="text-muted">SDG {{ item.previous_price }}</strike>
                                     </div>
                                     {% else %}
                                     <div>
-                                        <h5 class="mb-0">SDG {{item.current_price}}</h5>
+                                        <h5 class="mb-0">SDG {{ item.current_price }}</h5>
                                     </div>
                                     {% endif %}
-                                    <a href="/add_to_cart/{{item.id}}" class="btn btn-secondary">Add to cart</a>
+                                    <a href="/add_to_cart/{{ item.id }}" class="btn btn-secondary">Add to cart</a>
                                 </div>
-                                <p class="text-muted mt-2">{{item.in_stock}} Items Left</p>
+                                <p class="text-muted mt-2">{{ item.in_stock }} Items Left</p>
                             </div>
                         </div>
                     </a>
@@ -58,7 +58,9 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
+
 
 
 

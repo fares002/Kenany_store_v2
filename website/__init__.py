@@ -5,6 +5,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 import os
 from dotenv import load_dotenv
+import stripe
 
 # Load variables from .env file
 load_dotenv()
@@ -51,6 +52,13 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 mail = Mail(app)
+
+
+#Stripe Api
+app.config['STRIPE_PUBLIC_KEY'] = os.getenv('API_PUBLISHABLE_KEY')
+app.config['STRIPE_SECRET_KEY'] = os.getenv('API_SECRET_KEY')
+
+stripe.api_key = app.config['STRIPE_SECRET_KEY']
 
 # Register Blueprints
 from .views import views

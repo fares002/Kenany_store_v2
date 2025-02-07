@@ -166,7 +166,7 @@ class Order(Base):
     paid = db.Column(db.Boolean, default=False)
     status = db.Column(db.String(150), default='Pending', nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
-    payment_id = db.Column(db.String(1000), nullable=False)
+    payment_id = db.Column(db.String(1000))
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     
     def __str__(self):
