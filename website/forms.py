@@ -74,7 +74,7 @@ class ShopItemsForm(FlaskForm):
     previous_price = FloatField('Previous Price', validators=[Optional()])
     in_stock = IntegerField('In Stock', validators=[DataRequired(), NumberRange(min=0)])
     product_picture = FileField('Product Picture', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
+    description = TextAreaField('Description')
     flash_sale = BooleanField('Flash Sale')
     featured_product = BooleanField('Featured Product')
 

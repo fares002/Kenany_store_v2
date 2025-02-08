@@ -80,10 +80,12 @@ def add_to_cart(id):
             flash(f'An error occurred while adding item to cart', 'danger')
             return redirect(request.referrer)
     
-    new_cart_item = Cart()
-    new_cart_item.quantity = 1
-    new_cart_item.product_id = item_to_add.id
-    new_cart_item.customer_id = current_user.id
+    if item_to_add.in_stock:
+        new_cart_item = Cart()
+        new_cart_item.quantity = 1
+        new_cart_item.product_id = item_to_add.id
+        new_cart_item.customer_id = current_user.id
+
     
     try:
         db.session.add(new_cart_item)
@@ -92,7 +94,7 @@ def add_to_cart(id):
         return redirect(request.referrer)
     except Exception as e:
         print(e)
-        flash(f'An error occurred while adding item to cart', 'danger')
+        flash(f'item out of stock', 'danger')
         return redirect(request.referrer)
 
 
@@ -151,10 +153,11 @@ def pluscart():
     if request.method == 'GET':
         prod_id = request.args.get('prod_id')
         cart_item = Cart.query.get(prod_id)
-       
-        cart_item.quantity = cart_item.quantity + 1
-        db.session.commit()
+        print(cart_item)
         cart = Cart.query.filter_by(customer_id=current_user.id).all()
+        if cart_item.quantity < cart_item.product.in_stock:
+            cart_item.quantity = cart_item.quantity + 1
+        db.session.commit()
         amount = 0
         for item in cart:
             amount = amount + item.product.current_price * item.quantity
@@ -179,7 +182,7 @@ def minuscart():
     if request.method == 'GET':
         prod_id = request.args.get('prod_id')
         cart_item = Cart.query.get(prod_id)
-        if cart_item.quantity:
+        if cart_item.quantity > 1:
             cart_item.quantity = cart_item.quantity - 1
             db.session.commit()
             cart = Cart.query.filter_by(customer_id=current_user.id).all()
@@ -403,7 +406,7 @@ def contact():
     if form.validate_on_submit():
         msg = Message(form.subject.data,
                       sender=form.email.data,
-                      recipients=['faresosama002@gmail.com'])
+                      recipients=['sanadmhmoud76@gmail.co'])
         msg.body = f'''Name: {form.name.data}
 Email: {form.email.data}
 Message: {form.message.data}

@@ -131,7 +131,13 @@ class Product(Base):
     featured_product = db.Column(db.Boolean, default=False)
     category = db.Column(db.String(150), nullable=False)
     cart_items = db.relationship('Cart', backref='product', lazy=True)
-    orders = db.relationship('Order', backref='product', lazy=True)
+    orders = db.relationship(
+        'Order',
+        backref='product',
+        lazy=True,
+        cascade="all, delete-orphan",
+        passive_deletes=True
+    )
     reviews = db.relationship('Review', back_populates='product', lazy=True)
     
     def __str__(self):
@@ -167,7 +173,7 @@ class Order(Base):
     status = db.Column(db.String(150), default='Pending', nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
     payment_id = db.Column(db.String(1000))
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id' , ondelete="CASCADE"), nullable=False)
     
     def __str__(self):
         return f'<Order {self.id}>'
