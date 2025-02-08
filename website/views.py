@@ -406,7 +406,7 @@ def contact():
     if form.validate_on_submit():
         msg = Message(form.subject.data,
                       sender=form.email.data,
-                      recipients=['sanadmhmoud76@gmail.co'])
+                      recipients=['sanadmhmoud76@gmail.com'])
         msg.body = f'''Name: {form.name.data}
 Email: {form.email.data}
 Message: {form.message.data}
@@ -437,7 +437,7 @@ def stripe_checkout():
         line_item = {
             'price_data': {
                 'currency': 'EGP',  # Change this to your desired currency
-                'unit_amount': int(item.product.current_price),  # Stripe requires the amount in cents
+                'unit_amount': int(item.product.current_price * 100 ),  # Stripe requires the amount in cents
                 'product_data': {
                     'name': item.product.product_name,
                     # Optionally add more product details (like description)
